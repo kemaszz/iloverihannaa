@@ -1,1 +1,135 @@
-# iloverihannaa
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Translator Bahasa Rahasia Lek</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right, #ffc0cb, #ff69b4);
+      color: #333;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #fff;
+      text-shadow: 2px 2px #c94f7c;
+    }
+
+    textarea {
+      width: 80%;
+      height: 100px;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid #fff;
+      resize: none;
+    }
+
+    select, button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    .output {
+      background-color: white;
+      color: #000;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .action-buttons {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💖 RIHANNA SAYANGGG	 💖</h1>
+
+  <div>
+    <button onclick="pasteText()">📋 Tempel</button>
+  </div>
+
+  <textarea id="inputText" placeholder="Tulis sesuatu..."></textarea><br>
+
+  <select id="mode">
+    <option value="encode">Bahasa Indonesia → Bahasa Rahasia</option>
+    <option value="decode">Bahasa Rahasia → Bahasa Indonesia</option>
+  </select><br>
+
+  <button onclick="translate()">Terjemahkan</button>
+
+  <div class="output" id="outputText"></div>
+
+  <div class="action-buttons">
+    <button onclick="copyText()">📎 Salin Hasil</button>
+  </div>
+
+  <script>
+    const layout = {
+      q: 'qwertyuiop',
+      a: 'asdfghjkl',
+      z: 'zxcvbnm'
+    };
+
+    function shiftChar(char, reverse = false) {
+      const lowerChar = char.toLowerCase();
+      for (let row in layout) {
+        const letters = layout[row];
+        const index = letters.indexOf(lowerChar);
+        if (index !== -1) {
+          let newIndex = reverse
+            ? (index - 1 + letters.length) % letters.length
+            : (index + 1) % letters.length;
+          const shifted = letters[newIndex];
+          return char === char.toUpperCase() ? shifted.toUpperCase() : shifted;
+        }
+      }
+      return char;
+    }
+
+    function encode(text) {
+      return text.split('').map(c => shiftChar(c)).join('');
+    }
+
+    function decode(text) {
+      return text.split('').map(c => shiftChar(c, true)).join('');
+    }
+
+    function translate() {
+      const text = document.getElementById('inputText').value;
+      const mode = document.getElementById('mode').value;
+      const result = mode === 'encode' ? encode(text) : decode(text);
+      document.getElementById('outputText').innerText = result;
+    }
+
+    function copyText() {
+      const text = document.getElementById('outputText').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Hasil sudah disalin!");
+      });
+    }
+
+    function pasteText() {
+      navigator.clipboard.readText().then(text => {
+        document.getElementById('inputText').value = text;
+      });
+    }
+  </script>
+
+</body>
+</html>
